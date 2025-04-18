@@ -1,24 +1,29 @@
 package harou.phantoms_in_the_end;
 
-import net.fabricmc.api.ModInitializer;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.world.World;
+
 public class PhantomsInTheEnd implements ModInitializer {
 	public static final String MOD_ID = "phantoms-in-the-end";
-
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
+	private final EndPhantomSpawner endPhantomSpawner = new EndPhantomSpawner();
+	
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
+		LOGGER.info("PhantomsInTheEnd initialized");
 
-		LOGGER.info("Hello Fabric world!");
+		// Add custom phantom spawning in the End
+		ServerTickEvents.END_WORLD_TICK.register(world -> {
+			if (world.getRegistryKey() == World.END) {
+				if (world.getTime() % 20 == 0) {
+					endPhantomSpawner.spawn(world, true, true);
+				}
+			}
+		});
 	}
 }

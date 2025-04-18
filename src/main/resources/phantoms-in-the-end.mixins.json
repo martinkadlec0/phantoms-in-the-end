@@ -3,7 +3,7 @@
 	"package": "harou.phantoms_in_the_end.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"PhantomSpawnerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

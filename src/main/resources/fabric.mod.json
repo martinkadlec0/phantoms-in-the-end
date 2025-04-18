@@ -3,9 +3,9 @@
 	"id": "phantoms-in-the-end",
 	"version": "${version}",
 	"name": "Phantoms in the End",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Moves phantoms from overworld to the End.",
 	"authors": [
-		"Me!"
+		"BSHarou"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
@@ -23,7 +23,7 @@
 		"phantoms-in-the-end.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.16.13",
+		"fabricloader": ">=0.16.9",
 		"minecraft": "~1.21.4",
 		"java": ">=21",
 		"fabric-api": "*"
