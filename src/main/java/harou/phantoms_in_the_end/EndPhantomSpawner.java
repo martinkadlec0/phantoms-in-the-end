@@ -32,11 +32,11 @@ public class EndPhantomSpawner implements SpecialSpawner {
    public EndPhantomSpawner() {
    }
 
-   public int spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
+   public void spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
       if (!spawnMonsters) {
-         return 0;
+         return;
       } else if (!world.getGameRules().getBoolean(GameRules.DO_INSOMNIA)) {
-         return 0;
+         return;
       } else {
    
         
@@ -44,7 +44,7 @@ public class EndPhantomSpawner implements SpecialSpawner {
          Random random = world.random;
          --this.cooldown;
          if (this.cooldown > 0) {
-            return 0;
+            return;
          } else {
             // Cooldown is 10x smaller than PhantomSpwaner, because:
             // - we call "spawn" only every 20th tick to have less perf. impact (x20)
@@ -54,10 +54,9 @@ public class EndPhantomSpawner implements SpecialSpawner {
             // Since there is no day in the end to clear phantoms, this arbitrarily limits them
             int phantomCount = world.getEntitiesByType(EntityType.PHANTOM, LivingEntity::isAlive).size();
             if (phantomCount >= 8) {
-               return 0;
+               return;
             }
 
-            int succesfulSpawnAttempts = 0;
             int timeSinceRest;
             Iterator<ServerPlayerEntity> playerIterator = world.getPlayers().iterator();
 
@@ -73,7 +72,7 @@ public class EndPhantomSpawner implements SpecialSpawner {
                    
                      do {
                         if (!playerIterator.hasNext()) {
-                           return succesfulSpawnAttempts;
+                           return;
                         }
 
                         serverPlayerEntity = (ServerPlayerEntity)playerIterator.next();
@@ -105,7 +104,6 @@ public class EndPhantomSpawner implements SpecialSpawner {
                      phantomEntity.refreshPositionAndAngles(blockPos2, 0.0F, 0.0F);
                      entityData = phantomEntity.initialize(world, localDifficulty, SpawnReason.NATURAL, entityData);
                      world.spawnEntityAndPassengers(phantomEntity);
-                     ++succesfulSpawnAttempts;
                   }
                }
             }

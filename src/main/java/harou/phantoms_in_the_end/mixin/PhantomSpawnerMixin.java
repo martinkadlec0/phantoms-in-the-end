@@ -12,7 +12,7 @@ public abstract class PhantomSpawnerMixin {
      * @reason Completely override vanilla behavior to prevent all overworld phantom spawning
      */
     @Overwrite
-    public int spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
-        return 0; // Always return 0 (no phantoms spawned)
+    public void spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
+        return; // Always return 0 (no phantoms spawned)
     }
 }
