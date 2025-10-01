@@ -32,7 +32,7 @@ public class EndPhantomSpawner implements SpecialSpawner {
    public EndPhantomSpawner() {
    }
 
-   public void spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
+   public void spawn(ServerWorld world, boolean spawnMonsters) {
       if (!spawnMonsters) {
          return;
       } else if (!world.getGameRules().getBoolean(GameRules.DO_INSOMNIA)) {
