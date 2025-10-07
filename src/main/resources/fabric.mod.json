@@ -3,7 +3,7 @@
 	"id": "phantoms-in-the-end",
 	"version": "${version}",
 	"name": "Phantoms in the End",
-	"description": "Moves phantoms from overworld to the End.",
+	"description": "Moves phantoms from the Overworld to the End.",
 	"authors": [
 		"BSHarou"
 	],
@@ -11,7 +11,7 @@
 		"homepage": "https://fabricmc.net/",
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/phantoms-in-the-end/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -24,7 +24,7 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.17.2",
-		"minecraft": "1.21.9",
+		"minecraft": "1.21.10",
 		"java": ">=21",
 		"fabric-api": "*"
 	},
