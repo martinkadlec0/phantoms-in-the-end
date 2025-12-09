@@ -21,7 +21,7 @@ public class PhantomsInTheEnd implements ModInitializer {
 		ServerTickEvents.END_WORLD_TICK.register(world -> {
 			if (world.getRegistryKey() == World.END) {
 				if (world.getTime() % 20 == 0) {
-					endPhantomSpawner.spawn(world, world.getServer().shouldSpawnMonsters());
+					endPhantomSpawner.spawn(world, world.shouldSpawnMonsters());
 				}
 			}
 		});
