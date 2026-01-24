@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 public class PhantomsInTheEnd implements ModInitializer {
 	public static final String MOD_ID = "phantoms-in-the-end";
@@ -19,9 +19,9 @@ public class PhantomsInTheEnd implements ModInitializer {
 
 		// Add custom phantom spawning in the End
 		ServerTickEvents.END_WORLD_TICK.register(world -> {
-			if (world.getRegistryKey() == World.END) {
-				if (world.getTime() % 20 == 0) {
-					endPhantomSpawner.spawn(world, world.shouldSpawnMonsters());
+			if (world.dimension() == Level.END) {
+				if (world.getGameTime() % 20 == 0) {
+					endPhantomSpawner.tick(world, world.isSpawningMonsters());
 				}
 			}
 		});
