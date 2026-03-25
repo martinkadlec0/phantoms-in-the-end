@@ -18,10 +18,10 @@ public class PhantomsInTheEnd implements ModInitializer {
 		LOGGER.info("PhantomsInTheEnd initialized");
 
 		// Add custom phantom spawning in the End
-		ServerTickEvents.END_WORLD_TICK.register(world -> {
-			if (world.dimension() == Level.END) {
-				if (world.getGameTime() % 20 == 0) {
-					endPhantomSpawner.tick(world, world.isSpawningMonsters());
+		ServerTickEvents.END_LEVEL_TICK.register(level -> {
+			if (level.dimension() == Level.END) {
+				if (level.getGameTime() % 20 == 0) {
+					endPhantomSpawner.tick(level, level.isSpawningMonsters());
 				}
 			}
 		});

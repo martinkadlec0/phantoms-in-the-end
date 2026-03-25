@@ -31,13 +31,13 @@ public class EndPhantomSpawner implements CustomSpawner {
    public EndPhantomSpawner() {
    }
 
-   public void tick(ServerLevel world, boolean spawnMonsters) {
+   public void tick(ServerLevel level, boolean spawnMonsters) {
       if (!spawnMonsters) {
          return;
-      } else if (!world.getGameRules().get(GameRules.SPAWN_PHANTOMS)) {
+      } else if (!level.getGameRules().get(GameRules.SPAWN_PHANTOMS)) {
          return;
       } else {
-         RandomSource random = world.random;
+         RandomSource random = level.getRandom();
          --this.cooldown;
          if (this.cooldown > 0) {
             return;
@@ -48,13 +48,13 @@ public class EndPhantomSpawner implements CustomSpawner {
             this.cooldown += (60 + random.nextInt(60)) * 1.5;
 
             // Since there is no day in the end to clear phantoms, this arbitrarily limits them
-            int phantomCount = world.getEntities(EntityType.PHANTOM, LivingEntity::isAlive).size();
+            int phantomCount = level.getEntities(EntityType.PHANTOM, LivingEntity::isAlive).size();
             if (phantomCount >= 8) {
                return;
             }
 
             int timeSinceRest;
-            Iterator<ServerPlayer> playerIterator = world.players().iterator();
+            Iterator<ServerPlayer> playerIterator = level.players().iterator();
 
             while(true) {
                DifficultyInstance localDifficulty;
@@ -75,7 +75,7 @@ public class EndPhantomSpawner implements CustomSpawner {
                      } while(serverPlayerEntity.isSpectator());
 
                      blockPos = serverPlayerEntity.blockPosition();
-                     localDifficulty = world.getCurrentDifficultyAt(blockPos);
+                     localDifficulty = level.getCurrentDifficultyAt(blockPos);
 
                      ServerStatsCounter serverStatHandler = serverPlayerEntity.getStats();
                      timeSinceRest = Mth.clamp(
@@ -86,20 +86,20 @@ public class EndPhantomSpawner implements CustomSpawner {
                   } while(random.nextInt(timeSinceRest) < 72000);
 
                   blockPos2 = blockPos.above(20 + random.nextInt(15)).east(-10 + random.nextInt(21)).south(-10 + random.nextInt(21));
-                  blockState = world.getBlockState(blockPos2);
-                  fluidState = world.getFluidState(blockPos2);
-               } while(!NaturalSpawner.isValidEmptySpawnBlock(world, blockPos2, blockState, fluidState, EntityType.PHANTOM));
+                  blockState = level.getBlockState(blockPos2);
+                  fluidState = level.getFluidState(blockPos2);
+               } while(!NaturalSpawner.isValidEmptySpawnBlock(level, blockPos2, blockState, fluidState, EntityType.PHANTOM));
                
                SpawnGroupData entityData = null;
                // Removed: Adding one to global difficulty, to limit how many phantoms spawn at once
                int spawnAmount = 1 + random.nextInt(localDifficulty.getDifficulty().getId()); 
 
                for(int m = 0; m < spawnAmount; ++m) {
-                  Phantom phantomEntity = (Phantom)EntityType.PHANTOM.create(world, EntitySpawnReason.NATURAL);
+                  Phantom phantomEntity = (Phantom)EntityType.PHANTOM.create(level, EntitySpawnReason.NATURAL);
                   if (phantomEntity != null) {
                      phantomEntity.snapTo(blockPos2, 0.0F, 0.0F);
-                     entityData = phantomEntity.finalizeSpawn(world, localDifficulty, EntitySpawnReason.NATURAL, entityData);
-                     world.addFreshEntityWithPassengers(phantomEntity);
+                     entityData = phantomEntity.finalizeSpawn(level, localDifficulty, EntitySpawnReason.NATURAL, entityData);
+                     level.addFreshEntityWithPassengers(phantomEntity);
                   }
                }
             }
