@@ -3,6 +3,15 @@ plugins {
 	id 'maven-publish'
 }
 
+loom {
+	runs {
+		client {
+			programArgs("--username", "BSHarou")
+			programArgs("--uuid", "6b2ad775-d1ef-4a6d-ba1d-f95725b5ed7e")
+		}
+	}
+}
+
 version = project.mod_version
 group = project.maven_group
 
@@ -33,7 +42,12 @@ processResources {
 	inputs.property "version", project.version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": inputs.properties.version
+		expand(
+			"version": inputs.properties.version,
+			"minecraft_version": project.minecraft_version,
+			"loader_version": project.loader_version,
+			"restrict_minecraft_version": project.restrict_minecraft_version
+		)
 	}
 }
 
