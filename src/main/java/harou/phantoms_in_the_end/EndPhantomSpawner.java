@@ -10,7 +10,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.monster.Phantom;
@@ -48,7 +48,7 @@ public class EndPhantomSpawner implements CustomSpawner {
 				this.cooldown += (60 + random.nextInt(60)) * 1.5;
 
 				// Since there is no day in the end to clear phantoms, this arbitrarily limits them
-				int phantomCount = level.getEntities(EntityType.PHANTOM, LivingEntity::isAlive).size();
+				int phantomCount = level.getEntities(EntityTypes.PHANTOM, LivingEntity::isAlive).size();
 				if (phantomCount >= 8) {
 					return;
 				}
@@ -92,7 +92,7 @@ public class EndPhantomSpawner implements CustomSpawner {
 						blockState = level.getBlockState(blockPos2);
 						fluidState = level.getFluidState(blockPos2);
 					} while(!NaturalSpawner.isValidEmptySpawnBlock(
-						level, blockPos2, blockState, fluidState, EntityType.PHANTOM
+						level, blockPos2, blockState, fluidState, EntityTypes.PHANTOM
 					));
 					
 					SpawnGroupData entityData = null;
@@ -100,7 +100,7 @@ public class EndPhantomSpawner implements CustomSpawner {
 					int spawnAmount = 1 + random.nextInt(localDifficulty.getDifficulty().getId()); 
 
 					for(int m = 0; m < spawnAmount; ++m) {
-						Phantom phantomEntity = (Phantom) EntityType.PHANTOM.create(level, EntitySpawnReason.NATURAL);
+						Phantom phantomEntity = (Phantom) EntityTypes.PHANTOM.create(level, EntitySpawnReason.NATURAL);
 						if (phantomEntity != null) {
 							phantomEntity.snapTo(blockPos2, 0.0F, 0.0F);
 							entityData = phantomEntity.finalizeSpawn(level, localDifficulty, EntitySpawnReason.NATURAL, entityData);
