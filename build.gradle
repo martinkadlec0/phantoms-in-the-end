@@ -1,6 +1,7 @@
 plugins {
 	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
+	id 'com.modrinth.minotaur' version '2.10.0'
 }
 
 loom {
@@ -88,5 +89,23 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
+	}
+}
+
+// Publishes the jar to Modrinth: ./gradlew modrinth
+// Token is read from "modrinth_token" in ~/.gradle/gradle.properties (needs CREATE_VERSION scope).
+// Optional: -Pchangelog="..." to override the changelog, -Pmodrinth_debug to print the upload data without uploading.
+modrinth {
+	token = providers.gradleProperty("modrinth_token")
+	projectId = "phantoms-in-the-end"
+	versionName = "Phantoms in the End ${project.version}".toString()
+	versionType = "release"
+	uploadFile = jar
+	gameVersions = [project.minecraft_version]
+	loaders = ["fabric"]
+	changelog = providers.gradleProperty("changelog").orElse("- Updated to ${project.minecraft_version}".toString())
+	debugMode = providers.gradleProperty("modrinth_debug").isPresent()
+	dependencies {
+		required.project "fabric-api"
 	}
 }
